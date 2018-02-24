@@ -1,0 +1,9 @@
+{
+  presets: [
+    ['@babel/preset-env', { targets: { browser: 'ios 11' } }],
+  ],
+  plugins: [
+    '@babel/plugin-proposal-class-properties',
+    ['babel-plugin-module-resolver', { root: './src' }],
+  ],
+}
