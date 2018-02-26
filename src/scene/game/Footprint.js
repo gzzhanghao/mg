@@ -4,9 +4,7 @@ import { on } from 'global/eventbus'
 
 export default class Footprint extends Layer {
 
-  canvas = wx.createCanvas()
-
-  context = this.canvas.getContext('2d')
+  dots = []
 
   constructor() {
     super()
@@ -16,23 +14,54 @@ export default class Footprint extends Layer {
   }
 
   onPlayerUpdate = () => {
-    this.context.drawImage(Footprint.DOT_CACHE, this.scene.player.renderX, this.scene.player.renderY)
+    const { player } = this.scene
+    this.dots.push([
+      player.renderX - Footprint.HALF_DOT_SIZE,
+      player.renderY - Footprint.HALF_DOT_SIZE,
+    ])
+    if (this.dots.length > 100) {
+      this.dots.shift()
+    }
   }
 
   onPlayerTurn = () => {
   }
 
   render() {
-    context.drawImage(this.canvas, this.scene.viewport.x, this.scene.viewport.y)
+    const { x, y } = this.scene.viewport
+
+    const width = this.scene.statics.VIEWPORT_WIDTH
+    const height = this.scene.statics.VIEWPORT_HEIGHT
+
+    for (const dot of this.dots) {
+
+      if (x + dot[0] + Footprint.DOT_SIZE < 0 || x + dot[0] > width) {
+        continue
+      }
+
+      if (y + dot[1] + Footprint.DOT_SIZE < 0 || y + dot[1] > height) {
+        continue
+      }
+
+      context.drawImage(
+        Footprint.DOT_CACHE,
+        this.scene.viewport.x + dot[0],
+        this.scene.viewport.y + dot[1]
+      )
+    }
   }
+
+  static DOT_SIZE = 2
+
+  static HALF_DOT_SIZE = Footprint.DOT_SIZE / 2
 
   static DOT_CACHE = wx.createCanvas()
 }
 
 {
-  Footprint.DOT_CACHE.width = Footprint.DOT_CACHE.height = 2
+  Footprint.DOT_CACHE.width = Footprint.DOT_CACHE.height = Footprint.DOT_SIZE
 
   const cacheContext = Footprint.DOT_CACHE.getContext('2d')
 
-  cacheContext.fillRect(0, 0, 2, 2)
+  cacheContext.fillRect(0, 0, Footprint.DOT_SIZE, Footprint.DOT_SIZE)
 }
