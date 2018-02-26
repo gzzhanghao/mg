@@ -11,7 +11,9 @@ onFrame()
 function onFrame() {
   requestAnimationFrame(onFrame)
 
-  for (; lastFrame < Math.floor((Date.now() - startTime) / MSPF); lastFrame++) {
+  const targetFrame = (Date.now() - startTime) / MSPF
+
+  for (; lastFrame < targetFrame; lastFrame++) {
     game.update()
   }
 

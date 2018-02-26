@@ -33,7 +33,8 @@ export default class Player extends Layer {
       Player.CACHE_SIZE, Player.CACHE_SIZE,
 
       // dx, dy, dw, dh
-      this.renderX, this.renderY,
+      this.scene.viewport.x + this.renderX - Player.HALF_CACHE_SIZE,
+      this.scene.viewport.y + this.renderY - Player.HALF_CACHE_SIZE,
       Player.CACHE_SIZE, Player.CACHE_SIZE
     )
   }
@@ -63,11 +64,11 @@ export default class Player extends Layer {
   }
 
   get renderX() {
-    return Math.round(this.scene.viewport.x + this.x + Player.ROTATE_RADIUS * cos(this.ori) - Player.HALF_CACHE_SIZE)
+    return Math.round(this.x + Player.ROTATE_RADIUS * cos(this.ori))
   }
 
   get renderY() {
-    return Math.round(this.scene.viewport.y + this.y + Player.ROTATE_RADIUS * sin(this.ori) - Player.HALF_CACHE_SIZE)
+    return Math.round(this.y + Player.ROTATE_RADIUS * sin(this.ori))
   }
 
   static ROTATE_SPEED = 10

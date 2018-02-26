@@ -34,8 +34,8 @@ export default class Game extends Layer {
   update() {
     super.update()
 
-    this.viewport.x += this.getViewportDelta(this.player.renderX + Player.HALF_CACHE_SIZE, Game.HALF_VIEWPORT_WIDTH)
-    this.viewport.y += this.getViewportDelta(this.player.renderY + Player.HALF_CACHE_SIZE, Game.HALF_VIEWPORT_HEIGHT)
+    this.viewport.x += this.getViewportDelta(this.viewport.x + this.player.renderX, Game.HALF_VIEWPORT_WIDTH)
+    this.viewport.y += this.getViewportDelta(this.viewport.y + this.player.renderY, Game.HALF_VIEWPORT_HEIGHT)
   }
 
   getViewportDelta(pos, middlePoint) {
